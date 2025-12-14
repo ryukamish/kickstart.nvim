@@ -24,6 +24,8 @@ vim.o.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
 
+vim.o.winbar = '%=%m %f'
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -86,6 +88,16 @@ vim.o.confirm = true
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+-- Tab navigation
+vim.keymap.set('n', '<leader>h', ':tabprevious<cr>', { desc = 'Switch to previous tab' })
+vim.keymap.set('n', '<leader>l', ':tabnext<cr>', { desc = 'Switch to next tab' })
+vim.keymap.set('n', '<leader>bn', ':tabnew<cr>', { desc = 'Open a new tab' })
+vim.keymap.set('n', '<leader>bd', ':tabclose<cr>', { desc = 'Close a tab' })
+
+-- Line manipulation in visual mode
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -597,11 +609,26 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
+        jsonls = {
+          capabilities = capabilities,
+        },
+
+        cssls = {
+          capabilities = capabilities,
+        },
+
+        hyprls = {
+          capabilities = capabilities,
+        },
+
+        bashls = {
+          capabilities = capabilities,
+        },
 
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
-          -- capabilities = {},
+          capabilities = capabilities,
           settings = {
             Lua = {
               completion = {
@@ -750,6 +777,12 @@ require('lazy').setup({
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'default',
+        ['<Tab>'] = {
+          'accept',
+          function(cmp)
+            cmp.accept { index = 1 }
+          end,
+        },
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -849,6 +882,10 @@ require('lazy').setup({
       end
 
       require('mini.files').setup {
+        mappings = {
+          go_in = '',
+          go_out = '',
+        },
         vim.keymap.set('n', '<leader>e', ':lua MiniFiles.open(vim.api.nvim_buf_get_name(0), true)<cr>', { desc = 'Open mini files', silent = true }),
       }
 
@@ -891,9 +928,9 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
