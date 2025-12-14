@@ -15,6 +15,7 @@ local groups = {
   'FloatBorder',
   'NeoTreeNormal',
   'NeoTreeNormalNC',
+  'Winbar',
   -- "StatusLine", "StatusLineNC",
   -- "WinSeparator",
   -- "TabLine", "TabLineFill", "TabLineSel"
