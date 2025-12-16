@@ -132,7 +132,8 @@ require('lazy').setup({
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>b', group = '[B]uffer' },
-        { '<leader>p', group = '[N]eowiki' },
+        { '<leader>w', group = '[N]eowiki' },
+        { '<leader>o', group = '[O]bsidian Keymaps' },
       },
     },
   },
@@ -614,6 +615,7 @@ require('lazy').setup({
         opts = {},
       },
       'folke/lazydev.nvim',
+      'ribru17/blink-cmp-spell',
     },
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
@@ -669,9 +671,14 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'spell' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          -- Blink cmp spell plugin
+          spell = {
+            name = 'Spell',
+            module = 'blink-cmp-spell',
+          },
         },
       },
 
@@ -684,7 +691,22 @@ require('lazy').setup({
       -- the rust implementation via `'prefer_rust_with_warning'`
       --
       -- See :h blink-cmp-config-fuzzy for more information
-      fuzzy = { implementation = 'lua' },
+      fuzzy = {
+        implementation = 'lua',
+        -- Spell check
+        sorts = {
+          function(a, b)
+            local sort = require 'blink.cmp.fuzzy.sort'
+            if a.source_id == 'spell' and b.source_id == 'spell' then
+              return sort.label(a, b)
+            end
+          end,
+          -- This is the normal default order, which we fall back to
+          'score',
+          'kind',
+          'label',
+        },
+      },
 
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
@@ -749,6 +771,7 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
+      --[[
       require('mini.files').setup {
         mappings = {
           go_in = '',
@@ -756,6 +779,7 @@ require('lazy').setup({
         },
         vim.keymap.set('n', '<leader>e', ':lua MiniFiles.open(vim.api.nvim_buf_get_name(0), true)<cr>', { desc = 'Open mini files', silent = true }),
       }
+      --]]
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
@@ -797,7 +821,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
