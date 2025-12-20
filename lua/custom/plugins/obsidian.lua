@@ -14,8 +14,12 @@ return {
       vim.keymap.set('n', '<leader>od', ':Obsidian dailies<cr>', { desc = '[O]bsidian [D]aily notes picker' }),
       vim.keymap.set('n', '<leader>on', ':Obsidian new<cr>', { desc = 'Create [O]bsidian [N]ew note' }),
       vim.keymap.set('n', '<leader>ot', ':Obsidian template<cr>', { desc = 'Open [O]bsidian [T]emplate' }),
+      vim.keymap.set('n', '<leader>ob', ':Obsidian backlinks<cr>', { desc = 'Open [O]bsidian [B]acklinks' }),
     },
     legacy_commands = false, -- this will be removed in the next major release
+    frontmatter = {
+      enabled = true,
+    },
     workspaces = {
       {
         name = 'Notes',
@@ -26,8 +30,9 @@ return {
     note_id_func = function(title)
       if title ~= nil and title ~= '' then
         -- Clean the title into a valid filename
-        local slug = title:gsub(' ', '-'):gsub('[^A-Za-z0-9-]', ''):lower()
-        return slug
+        -- local slug = title:gsub(' ', '-'):gsub('[^A-Za-z0-9-]', ''):lower()
+        -- return slug -- Filename is lowercase, spaces and non-alphanumeric characters are replaced with hyphens
+        return title -- File name is the same as note name
       else
         -- Fallback if no title: use timestamp (or customize further)
         return tostring(os.time())
