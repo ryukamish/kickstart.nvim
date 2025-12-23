@@ -18,6 +18,11 @@ vim.o.showmode = false
 -- File path on the top right
 vim.o.winbar = '%=%m %f'
 
+vim.opt.swapfile = false
+
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+
 -- Global statusline
 vim.o.laststatus = 3
 
@@ -76,3 +81,5 @@ vim.o.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+vim.o.guicursor = ''

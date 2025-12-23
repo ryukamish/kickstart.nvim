@@ -52,6 +52,12 @@ map('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 map('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Resize splits
+map('n', '<M-,>', '<C-w>5<')
+map('n', '<M-.>', '<C-w>5>')
+map('n', '<M-->', '<C-w>-')
+map('n', '<M-=>', '<C-w>+')
+
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 
 -- map("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -60,3 +66,5 @@ map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 -- map("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 map('n', '<C-t>', ':10sp | terminal<cr>', { desc = 'Open terminal' })
+map('n', '<leader>bs', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = '[B]uffer [S]ubstitution under cursor' })
+map('n', '<leader>bw', [[:%s/\s\+$//e<CR>]], { desc = 'Strip [B]uffer [W]hitespaces' })
