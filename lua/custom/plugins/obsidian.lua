@@ -39,8 +39,11 @@ return {
       end
     end,
     daily_notes = {
+      enabled = true,
       folder = '00 - Daily Notes',
-      date_format = '%Y%m%d', -- Compact format 20251215 - Year, Month, Day
+      date_format = '%Y-%m-%d',
+      templates = '99 - Templates/Daily Notes.md',
+      default_tags = { 'daily-notes', 'journal' },
     },
     -- Creating a new note inside the specified dir
     notes_subdir = '03 - Main Notes',
@@ -57,7 +60,7 @@ return {
       name = 'telescope.nvim',
     },
     ui = {
-      enable = true, -- Fancy checkboxes, etc
+      enable = false, -- Fancy checkboxes, etc
     },
   },
 }
