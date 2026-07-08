@@ -18,7 +18,7 @@ return {
     },
     legacy_commands = false, -- this will be removed in the next major release
     frontmatter = {
-      enabled = true,
+      enabled = false,
     },
     workspaces = {
       {
@@ -42,7 +42,7 @@ return {
       enabled = true,
       folder = '00 - Daily Notes',
       date_format = '%Y-%m-%d',
-      templates = '99 - Templates/Daily Notes.md',
+      template = '99 - Templates/Daily Notes.md',
       default_tags = { 'daily-notes', 'journal' },
     },
     -- Creating a new note inside the specified dir
